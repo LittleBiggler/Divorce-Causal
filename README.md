@@ -11,6 +11,11 @@ I assess identification under parallel-trends variants (PT–GT–All baseline, 
 
 ![Event study line with 95% CI zone](artifact/att_in_event_time.png)
 [Significant Cohorts table](artifact/cohort_table_rounded.csv)
+| cohort    |   coefficient |   standard error |     p_value |   t_value |
+|:----------|--------------:|-----------------:|------------:|----------:|
+| 1980-1989 |      0.140867 |        0.0653954 | 0.0312745   |   2.15408 |
+| 2020-2029 |     -0.573471 |        0.17201   | 0.000864482 |  -3.33395 |
+
 ![Event study scatterplot with bar CI](artifact/event_study_bar.png)
 
 # Background:
