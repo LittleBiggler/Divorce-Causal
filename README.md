@@ -9,6 +9,10 @@ Methodologically, I implement (a) a cohort design that groups countries by decad
 
 I assess identification under parallel-trends variants (PT–GT–All baseline, plus PT–GT–Never and PT–GT–NYT as robustness frames) and use frequentist inference via statsmodels, with plans for Bayes-factor sensitivity. I discuss trade-offs between historical comparability (cohorts) and dynamic identification (event time), and outline a combined strategy—event studies within cohorts—to balance both.
 
+![Event study line with 95% CI zone](artifact/att_in_event_time.png)
+[Significant Cohorts table](artifact/cohort_table_rounded.csv)
+![Event study scatterplot with bar CI](artifact/event_study_bar.png)
+
 # Background:
 
 This study complements my parallel project, CoResidence Analysis (repo: https://github.com/LittleBiggler/CoResidence)
