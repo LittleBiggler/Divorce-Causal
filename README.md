@@ -68,7 +68,12 @@ Significant Cohorts
 |            5 (tail) |          **0.133** |           1548 |          58 |     **0.053** |     1.931 |            0.273 |
 
 ## Data & Methods (capsule)
-- **Data:** Global country–year panel, years: ____; sources: ____.
+- **Data:** Global country–year panel, years: 1960-2021;
+Sources:
+- Gini Index, World Bank (https://data.worldbank.org/indicator/SI.POV.GINI), Poverty and Inequality Platform. Data are based on primary household survey data obtained from government statistical agencies and World Bank country departments. Data for high-income economies are mostly from the Luxembourg Income Study database. For more information and methodology, please see pip.worldbank.org
+- I compiled no-fault divorce adoption years primarily via Google searches, following links to government sources or (frequently) law-firm explainers aimed at prospective clients. I did not rely on AI overviews. 
+
+
 
 ## How to Run
 ```bash
