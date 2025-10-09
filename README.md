@@ -1,32 +1,55 @@
 # Divorce-Causal
-Do "no fault divorce" laws improve income inequality?
+This repo contains data, an analysis in a Jupyter Notebook, and artifacts (tables and charts) created by running the notebook. 
 
-In this project, I study whether liberalizing divorce law causally affects national income inequality (Gini index). Because adoption years vary across countries, I use staggered difference-in-differences designs. I code divorce regimes into two categories
-(I) no recognition of “irretrievable breakdown/irreconcilable differences” or procedures that are substantively one-sided, and 
-(II) no-fault regimes (including recognition of irretrievable breakdown/irreconcilable differences)—in order to assemble an observational country-year panel.
+## Project Summary
+- **Question:** Does the passage of "no fault divorce" laws affect national income inequality?
+- **Design:** Staggered DiD with country/year FE; clustered SEs by country. Inference uses cluster-robust (sandwich) SEs by country (statsmodels) and a cluster pairs bootstrap over countries as a robustness check.
+- **Treatment:** First year of no-fault divorce (see “Treatment Coding”)
+- **Outcome:** Gini (0–100), inverted (higher = more equal).
+- **Key result:** k=1 ≈ +0.37 points (p≈0.049), k=5+ +.133 points (p≈0.053 (marginal)); 1980s cohort +0.141, 2020s −0.573.
+- **Assumptions:** Parallel trends, no anticipation; tails binned.
 
-Methodologically, I implement (a) a cohort design that groups countries by decade of adoption and estimates within-cohort TWFE models anchored at each cohort’s modal reform year, and (b) an event-study design that re-indexes outcomes by event time to trace pre-trends and dynamic post-reform effects (while avoiding contamination between treated and control observations, which occurs in the cohort design). 
-
-I assess identification under parallel-trends variants (PT–GT–All baseline, plus PT–GT–Never and PT–GT–NYT as robustness frames) and use frequentist inference via statsmodels, with plans for Bayes-factor sensitivity. I discuss trade-offs between historical comparability (cohorts) and dynamic identification (event time), and outline a combined strategy—event studies within cohorts—to balance both.
-
-![Event study line with 95% CI zone](artifact/att_in_event_time.png)
-[Significant Cohorts table](artifact/cohort_table_rounded.csv)
-| cohort    |   coefficient |   standard error |     p_value |   t_value |
-|:----------|--------------:|-----------------:|------------:|----------:|
-| 1980-1989 |      0.140867 |        0.0653954 | 0.0312745   |   2.15408 |
-| 2020-2029 |     -0.573471 |        0.17201   | 0.000864482 |  -3.33395 |
-
-![Event study scatterplot with bar CI](artifact/event_study_bar.png)
-
-# Background:
+## Background
 
 This study complements my parallel project, CoResidence Analysis (repo: https://github.com/LittleBiggler/CoResidence)
 
-Exploratory visuals from that work show several features with inflection points in the 1970s–1980s and broad shifts toward households that are (1) older and (2) more often female-headed. During this period, the share of female-headed households rose, average number of children per household fell, and household age increased. If household configuration relates to inequality, *something important* appears to change in the 1970s–1980s.
+Exploratory visuals from that work show several features with inflection points in the 1970s–1980s and broad shifts toward households that are (1) older and (2) more often female-headed. During this period, the share of female-headed households rose, average number of children per household fell, and age of inhabitants increased. If household configuration relates to inequality, something important appears to change in the 1970s–1980s.
 
 When I consider shocks that plausibly reshape household structure—illness, job loss, and divorce—divorce stands out as both substantively meaningful, and empirically tractable: adoption years are relatively easy to document across countries. Beyond data availability, a society’s willingness to liberalize divorce is signal-rich, reflecting deep shifts in norms and interpersonal arrangements.
 
-Because I analyze countries globally, my hope is that cross-country heterogeneity helps “average out” idiosyncratic parallel trends, sharpening identification on divorce law as a potential causal catalyst rather than on unrelated confounders.
+## Results
+|   Event Time |   Effect (ATT) |   Observations |   Countries |   P-Value |   T-Value |   Standard Error | 95% CI        |
+|-------------:|---------------:|---------------:|------------:|----------:|----------:|-----------------:|:--------------|
+|  -5 (tail) |          0.417 |           2050 |          65 |     0.451 |     0.753 |            0.186 | (0.05, 0.78)  |
+|           -4 |          0.013 |             65 |          65 |     0.767 |    -0.296 |            0.154 | (-0.29, 0.31) |
+|           -3 |          0.335 |             65 |          65 |     0.097 |     1.657 |            0.191 | (-0.04, 0.71) |
+|           -2 |          0.012 |             64 |          64 |     0.87  |     0.163 |            0.246 | (-0.47, 0.49) |
+| -1 (baseline) |          0     |             63 |          63 |   nan     |   nan     |          nan     | (nan, nan)    |
+|            0 |          0.073 |             62 |          62 |     0.735 |     0.338 |            0.222 | (-0.36, 0.51) |
+|            1 |     **0.371** |             62 |          62 | **0.049** |     1.967 |            0.189 | (-0.0, 0.74)  |
+|            2 |          0.259 |             62 |          62 |     0.248 |     1.156 |            0.237 | (-0.21, 0.72) |
+|            3 |          0.386 |             60 |          60 |     0.151 |     1.436 |            0.302 | (-0.21, 0.98) |
+|            4 |          0.266 |             59 |          59 |     0.24  |     1.175 |            0.265 | (-0.25, 0.79) |
+|   5 (tail) |      **0.133** |           1548 |          58 | **0.053** |     1.931 |            0.273 | (-0.4, 0.67)  |
+
+
+Here, average treatment effect on the treated (ATT) is shown for each event time, with bootstrap pair CI shaded.
+![Event study line with 95% CI zone](artifact/att_in_event_time.png)
+
+
+Here, ATT is shown for each event time, with cluster robust CIs (statsmodels)
+![Event study scatterplot with bar CI](artifact/event_study_bar.png)
+
+
+Significant Cohorts
+[Significant Cohorts table](artifact/cohort_table_rounded.csv)
+| cohort    |   coefficient |   standard error |     p_value |   t_value |
+|:----------|--------------:|-----------------:|------------:|----------:|
+| 1980-1989 |      0.141 |        0.065 | 0.031   |   2.154 |
+| 2020-2029 |     -0.573 |        0.172   | 0.001 |  -3.334 |
+
+
+
 
 # Conclusion
 
@@ -43,3 +66,13 @@ Because I analyze countries globally, my hope is that cross-country heterogeneit
 |            3 |          0.386 |             60 |          60 |     0.151 |     1.436 |            0.302 |
 |            4 |          0.266 |             59 |          59 |     0.24  |     1.175 |            0.265 |
 |            5 (tail) |          **0.133** |           1548 |          58 |     **0.053** |     1.931 |            0.273 |
+
+## Data & Methods (capsule)
+- **Data:** Global country–year panel, years: ____; sources: ____.
+
+## How to Run
+```bash
+conda env create -f environment.yml
+conda activate divorce-did
+jupyter lab  # open notebooks/analysis.ipynb
+
