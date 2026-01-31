@@ -5,8 +5,9 @@ This repo contains data, an analysis in a Jupyter Notebook, and artifacts (table
 - **Question:** Does the passage of "no fault divorce" laws affect national income inequality?
 - **Design:** Staggered DiD with country/year FE; clustered SEs by country. Inference uses cluster-robust (sandwich) SEs by country (statsmodels) and a cluster pairs bootstrap over countries as a robustness check.
 - **Treatment:** First year of no-fault divorce (see “Treatment Coding”)
-- **Outcome:** Gini (0–100), inverted (higher = more equal).
-- **Key result:** k=1 ≈ +0.37 points (p≈0.049), k=5+ +.133 points (p≈0.053 (marginal)); 1980s cohort +0.141, 2020s −0.573.
+- **Target:** Gini (0–100), inverted (higher = more equal).
+- **Key result:** k=1 ≈ +0.37 points (p≈0.049), k=5+ +.133 points (p≈0.053 (marginal));
+  1980s cohort +0.141 (p≈0.031), 2020s −0.573 (p≈0.001)
 - **Assumptions:** Parallel trends, no anticipation; tails binned.
 
 ## Background
